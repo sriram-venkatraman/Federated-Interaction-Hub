@@ -1,0 +1,28 @@
+<apex:page controller="InteractionsListController"
+           showHeader="false"
+           renderAs="pdf"
+           applyBodyTag="false"
+           applyHtmlTag="false">
+    <head>
+        <style>
+            @media print{@page {size: landscape}}
+            @page {size: landscape}
+        </style>
+    </head>
+    
+    <apex:pageBlock title="Interactions for {!accountName}" >
+        <apex:pageBlockTable value="{!interactions}" var="i" border="1" cellpadding="5" cellspacing="1">
+            <apex:column headerValue="Interaction Date" value="{!i.InteractionDate__c}"/>
+            <apex:column headerValue="Type" value="{!i.Type__c}"/>
+            <apex:column headerValue="Owner" value="{!i.Owner__c}"/>
+            <apex:column headerValue="Subject" value="{!i.Subject__c}"/>
+            <apex:column headerValue="Detail" value="{!i.Content__c}"
+                         rendered="{!IF(ISNULL(i.VersionData__c) , true , false)}"/>
+            <apex:column rendered="{!IF(ISNULL(i.VersionData__c) , false, true)}">
+                <apex:outputText value="{!i.VersionData__c}" escape="false" />
+            </apex:column>
+            <apex:column headerValue="Household Member" value="{!i.HouseholdMember__r.name}"/>
+            <apex:column headerValue="Opportunity" value="{!i.Opportunity__r.name}"/>
+        </apex:pageBlockTable>
+    </apex:pageBlock>
+</apex:page>

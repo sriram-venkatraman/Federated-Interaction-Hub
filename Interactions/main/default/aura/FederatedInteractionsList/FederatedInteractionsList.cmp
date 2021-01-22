@@ -1,0 +1,60 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId"
+                controller="FederatedInteractionsController" >
+     
+    <aura:attribute type="Interaction__x[]" name="inActList" />
+    <aura:attribute name="mycolumns" type="List" />
+    <aura:attribute name="selectedRowsCount" type="Integer" default="0" />
+    <aura:attribute name="maxRowSelection" type="Integer" default="20" />
+    <aura:attribute name="currentAccountId" type="String" default="" />
+    <aura:attribute name="selectedExternalIds" type="String" default="" />
+    <aura:attribute name="showFilters" type="Boolean" default="false" />
+    <aura:attribute name="rangeStart" type="Date" default='2019-05-22' />
+    <aura:attribute name="rangeEnd" type="Date" default='2019-11-18' />
+    <aura:attribute name="interactionTypeOptions" type="List" default="[
+                                                        {'label': 'Note', 'value': 'Note'},
+                                                        {'label': 'Event', 'value': 'Event'},
+                                                        {'label': 'Task', 'value': 'Task'},
+                                                        {'label': 'Email', 'value': 'Email'}
+                                                        ]"/>
+    <aura:attribute name="selectedInteractionTypes" type="List" default="['Note', 'Email']"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.fetchInAct}"/>
+    <aura:registerEvent name="appEvent" type="c:InteractionViewEvent"/>
+     
+    <div>
+        <lightning:layout horizontalAlign="spread">
+            <lightning:layoutItem padding="around-small" alignmentBump="right" >
+                <lightning:button label="Print" title="Print Interactions" iconName="utility:print" onclick="{! c.printInteractions }"/>
+                <lightning:button label="Filter" title="Filter" iconName="utility:filterList" onclick="{! c.filterInteractions }"/>
+            </lightning:layoutItem>
+        </lightning:layout>
+
+        <aura:if isTrue="{!v.showFilters}">
+            <h2 class="header">Set Filters</h2>
+            <lightning:layout >
+                <lightning:layoutItem padding="around-small" >
+	                <lightning:input type="date" name="rangeStart" label="Interaction Start" value="{! v.rangeStart}" />
+	                <lightning:input type="date" name="rangeEnd" label="Interaction End" value="{! v.rangeEnd}"/>
+                </lightning:layoutItem>
+                <lightning:layoutItem padding="around-small" >
+                    <lightning:checkboxGroup name="Interaction Types"
+                                             label="Interaction Types"
+                                             options="{! v.interactionTypeOptions }"
+                                             value="{! v.selectedInteractionTypes }"
+                                             onchange="{! c.handleInteractionTypeSelection }"/>
+                </lightning:layoutItem>
+            </lightning:layout>
+            <lightning:button label="Apply" title="Apply Filters" iconName="utility:check" onclick="{! c.fetchInAct }"/>
+        </aura:if>
+        
+        <div class="slds-box" style="height: 300px">
+            <lightning:datatable data="{! v.inActList }"
+                                 columns="{! v.mycolumns }"
+                                 keyField="ExternalId"
+                                 maxRowSelection="{! v.maxRowSelection }"
+                                 onrowaction="{! c.handleRowAction }"
+                                 onrowselection="{! c.updateSelectedText }"/>
+        </div>
+    </div>
+     
+</aura:component>

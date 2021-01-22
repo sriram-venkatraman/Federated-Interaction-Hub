@@ -1,0 +1,4 @@
+({
+    handleShowContentNoteEvent : function(cmp, event) {
+    }
+})

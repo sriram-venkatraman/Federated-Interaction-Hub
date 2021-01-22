@@ -1,0 +1,60 @@
+<aura:component implements="flexipage:availableForRecordHome" access="global" >
+	<aura:attribute name="recordId" type="String"/>
+	<aura:attribute name="headerMsg" type="String"/>
+	<aura:attribute name="subHeaderMsg" type="String"/>
+	<aura:attribute name="icon" type="String"/>
+	<aura:attribute name="sObject" type="String"/>
+	<aura:attribute name="versionData" type="String"/>
+    
+    <aura:handler event="c:InteractionViewEvent" action="{!c.handleInteractionViewEvent}"/>
+
+    <aura:if isTrue="{!v.recordId != null}">
+        <div class="slds-page-header">
+            <div class="slds-page-header__row">
+                <div class="slds-page-header__col-title">
+                    <div class="slds-media">
+                        <div class="slds-media__figure">
+                            <span class="slds-icon_container slds-icon-standard-opportunity" title="opportunity">
+                                <lightning:icon iconName="{! v.icon }" alternativeText="Approved" />
+                            </span>
+                        </div>
+                        <div class="slds-media__body">
+                            <div class="slds-page-header__name">
+                                <div class="slds-page-header__name-title">
+                                    <h1>
+                                        <span class="slds-page-header__title slds-truncate" title="{! v.headerMsg }">{! v.headerMsg }</span>
+                                    </h1>
+                                </div>
+                            </div>
+                            <p/>
+                            <p class="slds-page-header__name-meta">{! v.subHeaderMsg }</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <aura:if isTrue="{!v.sObject != 'ContentNote'}">
+            <div class="slds-box">
+                <force:recordEdit recordId="{! v.recordId}" />
+            </div>
+        </aura:if>
+        
+        <aura:if isTrue="{!v.sObject == 'ContentNoteOLD'}">
+            <lightning:recordViewForm recordId="{! v.recordId}" objectApiName="ContentNote">
+                <div class="slds-box">
+                    <lightning:outputField fieldName="Title" />
+                    <lightning:outputField fieldName="TextPreview" />
+                    <lightning:formattedRichText fieldName="Content" />
+                </div>
+            </lightning:recordViewForm>
+        </aura:if>
+        
+        <aura:if isTrue="{!v.sObject == 'ContentNote'}">
+            <div class="slds-box">
+	            <c:ShowContentNote versionData="{!v.versionData}"/>
+            </div>
+        </aura:if>
+    </aura:if> 
+    
+</aura:component>

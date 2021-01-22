@@ -1,0 +1,8 @@
+<aura:event type="APPLICATION">
+    <aura:attribute name="CurrentInteractionId" type="String"/>
+    <aura:attribute name="HeaderMessage" type="String"/>
+    <aura:attribute name="SubHeaderMessage" type="String"/>
+    <aura:attribute name="Icon" type="String"/>
+    <aura:attribute name="VersionData" type="String"/>
+    <aura:attribute name="SObject" type="String"/>
+</aura:event>

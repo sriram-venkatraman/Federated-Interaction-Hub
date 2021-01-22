@@ -1,0 +1,5 @@
+<aura:component>
+    <aura:attribute name="versionData" type="String"/>
+
+    <lightning:formattedRichText value="{!v.versionData}" />
+</aura:component>
